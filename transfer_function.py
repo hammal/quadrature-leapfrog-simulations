@@ -4,13 +4,13 @@ import cbadc
 import matplotlib.pyplot as plt
 import os
 
-figures_dir = "figures"
-if not os.path.exists(figures_dir):
-    os.mkdir(figures_dir)
 
-csv_dir = "csv"
-if not os.path.exists(csv_dir):
-    os.mkdir(csv_dir)
+
+figures_dir = "figures/transfer_function"
+os.makedirs(figures_dir, exist_ok=True)
+
+csv_dir = "csv/transfer_function"
+os.makedirs(csv_dir, exist_ok=True)
 
 # system order
 N = [8, 4, 2]
