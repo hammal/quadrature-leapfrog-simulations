@@ -116,6 +116,8 @@ OSR = 4
 # number of equally spaced notch frequency points
 number_of_freq_points = OSR
 
+print(OSR)
+
 
 #######################################################################################
 # The simulate function to be executed at each node.
@@ -140,8 +142,8 @@ number_of_freq_points = OSR
 def simulate_function(
     N,
     fs,
-    fp_fs,
     OSR,
+    fp_fs,
     input_amplitude,
     target_size,
     K1,
@@ -157,14 +159,13 @@ def simulate_function(
     """
     logger.info("Starting simulation.")
     # relative bandwidth
-    f_BW = 0.5 / OSR
     L = 2
 
     logger.info(f"fp_fs: {fp_fs}")
     BW = 0.5 * fs / OSR
 
     # Setup baseband analog frontend
-    analog_frontend_baseband = cbadc.synthesis.get_leap_frog(OSR=OSR * 2, N=N, T=1 / fs)
+    analog_frontend_baseband = cbadc.synthesis.get_leap_frog(OSR=2 * OSR, N=N, T=1 / fs)
 
     fs = 1.0 / analog_frontend_baseband.digital_control.clock.T
     fp = fp_fs * fs
@@ -174,6 +175,23 @@ def simulate_function(
     size = target_size - (target_size % period_samples)
     size = target_size
 
+    args = {
+        "BW": BW,
+        "OSR": OSR,
+        "N": N,
+        "input_amplitude": input_amplitude,
+        "fp_fs": fp_fs,
+        "fp": fp,
+        "fs": fs,
+        "size": size,
+        "K1": K1,
+        "K2": K2,
+        "phi": phi,
+        "delta_DC": delta_DC,
+        "size": size,
+    }
+
+    logging.info(args)
     # setup quadrature analog frontend
     analog_frontend_bandpass = cbadc.synthesis.get_bandpass(
         analog_frontend=analog_frontend_baseband, fc=fp, phi=phi, delta_DC=delta_DC
@@ -334,22 +352,9 @@ def simulate_function(
     baseband_res = evaluate_baseband(u_hat_baseband[K1 + K2 :], fs, BW / 2, size)
 
     # put the results in the ResultDataClass
+    logger.info(f"OSR = {OSR}")
     result_dataclass = ResultDataClass(
-        args={
-            "BW": BW,
-            "OSR": OSR,
-            "N": N,
-            "input_amplitude": input_amplitude,
-            "fp_fs": fp_fs,
-            "fp": fp,
-            "fs": fs,
-            "size": size,
-            "K1": K1,
-            "K2": K2,
-            "phi": phi,
-            "delta_DC": delta_DC,
-            "size": size,
-        },
+        args=args,
         res={
             "bandpass": bandpass_res,
             "bandpass_filter": digital_estimator,
@@ -403,6 +408,12 @@ def post_processing_function(results: Iterable[ResultDataClass]):
 
     for index, res in cbadc.utilities.show_status(enumerate(results)):
         BW = res.args["BW"]
+        OSR = res.args["OSR"]
+        N = res.args["N"]
+        fs = res.args["fs"]
+        fp = res.args["fp"]
+        size = res.args["size"]
+        logger.info(f"fp: {fp}, fs: {fs}, BW: {BW}, OSR: {OSR}, N: {N}")
 
         f_states, ax_states = plt.subplots()
         for index_x in range(2 * N):
@@ -476,7 +487,7 @@ def post_processing_function(results: Iterable[ResultDataClass]):
             f_time.savefig(
                 os.path.join(
                     figures_folder,
-                    f"time_domain_{index}_{res.args['N']}_{res.args['OSR']}",
+                    f"time_domain_{index}_{res.args['N']}_{res.args['OSR']}.png",
                 ),
                 dpi=dpi,
             )
@@ -484,7 +495,7 @@ def post_processing_function(results: Iterable[ResultDataClass]):
             f_time_2.savefig(
                 os.path.join(
                     figures_folder,
-                    f"time_domain_dm_{index}_{res.args['N']}_{res.args['OSR']}",
+                    f"time_domain_dm_{index}_{res.args['N']}_{res.args['OSR']}.png",
                 ),
                 dpi=dpi,
             )
@@ -600,7 +611,7 @@ def post_processing_function(results: Iterable[ResultDataClass]):
     ax_angle.set_xlabel("Time index")
     ax_angle.set_ylabel("Angle [rad]")
     ax_angle.legend()
-    f_angle.savefig(os.path.join(figures_folder, f"angle"), dpi=dpi)
+    f_angle.savefig(os.path.join(figures_folder, f"angle.png"), dpi=dpi)
     plt.close(f_angle)
 
     freq, Pxx_den_0 = cbadc.utilities.compute_power_spectral_density(
@@ -629,7 +640,7 @@ def post_processing_function(results: Iterable[ResultDataClass]):
         f_time.savefig(
             os.path.join(
                 figures_folder,
-                f"time_domain_{index}_{res.args['N']}_{res.args['OSR']}_bb",
+                f"time_domain_{index}_{res.args['N']}_{res.args['OSR']}_bb.png",
             ),
             dpi=dpi,
         )
@@ -672,7 +683,7 @@ def post_processing_function(results: Iterable[ResultDataClass]):
     ax_psd[0].set_xlim((0, fs / 2))
 
     f_psd.savefig(
-        os.path.join(figures_folder, f"psd_{res.args['N']}_{res.args['OSR']}"),
+        os.path.join(figures_folder, f"psd_{res.args['N']}_{res.args['OSR']}.png"),
         dpi=dpi,
     )
     plt.close(f_psd)
@@ -690,7 +701,7 @@ def post_processing_function(results: Iterable[ResultDataClass]):
     ax_psd_dm[0].set_xlim((0, fs / 2))
 
     f_psd_dm.savefig(
-        os.path.join(figures_folder, f"psd_dm_{res.args['N']}_{res.args['OSR']}"),
+        os.path.join(figures_folder, f"psd_dm_{res.args['N']}_{res.args['OSR']}.png"),
         dpi=dpi,
     )
     plt.close(f_psd_dm)
@@ -767,7 +778,7 @@ def post_processing_function(results: Iterable[ResultDataClass]):
     ax_snr[0].grid(True)
     ax_snr[1].legend()
     f_snr.savefig(
-        os.path.join(figures_folder, f"snr_{res.args['N']}_{res.args['OSR']}"),
+        os.path.join(figures_folder, f"snr_{res.args['N']}_{res.args['OSR']}.png"),
         dpi=dpi,
     )
     plt.close(f_snr)
@@ -780,7 +791,7 @@ def post_processing_function(results: Iterable[ResultDataClass]):
     ax_snr_2[0].grid(True)
     ax_snr_2[1].legend()
     f_snr_2.savefig(
-        os.path.join(figures_folder, f"snr_2_{res.args['N']}_{res.args['OSR']}"),
+        os.path.join(figures_folder, f"snr_2_{res.args['N']}_{res.args['OSR']}.png"),
         dpi=dpi,
     )
     plt.close(f_snr)
@@ -793,7 +804,7 @@ def post_processing_function(results: Iterable[ResultDataClass]):
     ax_snr_3[0].grid(True)
     ax_snr_3[1].legend()
     f_snr_3.savefig(
-        os.path.join(figures_folder, f"snr_3_{res.args['N']}_{res.args['OSR']}"),
+        os.path.join(figures_folder, f"snr_3_{res.args['N']}_{res.args['OSR']}.png"),
         dpi=dpi,
     )
     plt.close(f_snr)
@@ -804,7 +815,7 @@ def post_processing_function(results: Iterable[ResultDataClass]):
     ax_imp.set_xlabel("t/T")
     ax_imp.set_ylabel("impulse response")
     ax_imp.grid(True)
-    f_imp.savefig(os.path.join(figures_folder, "impulse_response"), dpi=dpi)
+    f_imp.savefig(os.path.join(figures_folder, "impulse_response.png"), dpi=dpi)
     plt.close(f_imp)
 
     # plt.show()
