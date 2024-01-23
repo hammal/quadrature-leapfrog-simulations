@@ -4,15 +4,15 @@ This repository contains the simulation code for the parper [A Control-Bounded Q
 ## Install
 
 ### Virtual Python Enviroment
-To run the code it's highly reccomended to first create a fresh virutal python enviroment as
+To run the code it's reccomended to first create a fresh virutal python enviroment as
 ``` zsh
 python3 -m venv venv
 ```
-to activate the enviroment simply wright
+to activate the enviroment type
 ``` zsh
 source venv/bin/activate
 ```
-to deactivate simply type
+to deactivate type
 ``` zsh
 deactivate
 ```
