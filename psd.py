@@ -9,6 +9,7 @@ import os
 import matplotlib.pyplot as plt
 from scipy import interpolate
 from cbadc.analog_signal.quadrature import _rotation_matrix
+import sys
 
 logger = logging.getLogger(__name__)
 plt.rcParams["figure.figsize"] = [10.0, 7.5]
@@ -16,7 +17,7 @@ K_ref_half = 1 << 9
 
 simset.script_name = "psd.py"
 simset.concurrent_jobs = 48
-simset.python_interpreter = "python"
+simset.python_interpreter = sys.executable
 
 
 figures_folder = "figures/psd"

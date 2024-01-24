@@ -13,6 +13,7 @@ from cbadc.circuit.testbench import OTATestBench, OpAmpTestBench
 from cbadc.circuit.simulator import NGSpiceSimulator
 from calib_python import plot_impulse_response, bode_plot, plot_state_dist
 import scipy.signal
+import sys
 
 logger = logging.getLogger(__name__)
 plt.rcParams["figure.figsize"] = [10.0, 7.5]
@@ -20,7 +21,7 @@ K_ref_half = 1 << 9
 
 simset.script_name = "opamp.py"
 simset.concurrent_jobs = 46
-simset.python_interpreter = "python"
+simset.python_interpreter = sys.executable
 
 ## simset.data_folders.append(["path1", "path2", "path3"])
 

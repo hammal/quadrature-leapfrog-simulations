@@ -10,6 +10,7 @@ import os
 import subprocess
 from calib_python import plot_impulse_response, bode_plot, plot_state_dist
 import tikzplotlib
+import sys
 
 logger = logging.getLogger(__name__)
 plt.rcParams["figure.figsize"] = [10.0, 7.5]
@@ -19,7 +20,7 @@ plt.style.use("ggplot")
 
 simset.script_name = "excess_loop_delay_fixed.py"
 simset.concurrent_jobs = 48
-simset.python_interpreter = "python"
+simset.python_interpreter = sys.executable
 
 ## simset.data_folders.append(["path1", "path2", "path3"])
 
