@@ -47,7 +47,8 @@ python transfer_function.py
 The script generates a csv file [./csv/tranfer_function/transfer_functions.csv](./csv/transfer_function/transfer_functions.csv) which was plotted using the 
 [pgfplots] framework in the LaTex source file for the [paper]. In addition, the script generate the matplotlib plot [./figures/transfer_function/transfer_functions.png](./figures/transfer_function/transfer_function.png).
 
-![transfer_functions](./figures/transfer_function/transfer_function.png)
+<img src="./figures/transfer_function/transfer_function.png" width="512">
+
 
 ### Fig. 11: Power Spectral Densities
 The power spectral density related simulations can be found in the [./psd.py](./psd.py) script.
@@ -85,9 +86,9 @@ contains the PSD data whereas [./csv/psd/snr_8_4.csv](./csv/psd/snr_8_4.csv), [.
 The resulting figures can be found in [./figures/psd/](./figures/psd/) and contains PSD plots, SNR plots, state evolution plots, the final estimate in time-domain, and more. Some highligts follow below
 
 ##### PSDs
-![N=6, OSR=8](./figures/psd/psd_6_8.png)
-![N=6, OSR=4](./figures/psd/psd_6_4.png)
-![N=8, OSR=4](./figures/psd/psd_6_8.png)
+<img src="./figures/psd/psd_6_8.png" width="512">
+<img src="./figures/psd/psd_6_4.png" width="512">
+<img src="./figures/psd/psd_8_4.png" width="512">
 
 ### Fig. 12: Excess Loop Delay
 
@@ -125,18 +126,23 @@ Additionally, bode plots, state distribution, control signal distribution, PSD, 
 
 PSD:
 
-![PSD](figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_psd.png))
+<img src="./figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_psd.png" width="512">
 
 States time evolution:
-![States](figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06.png)
+
+<img src="./figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06.png" width="512">
 
 States histogram
-![Histogram](figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_dist.png)
 
-Bode plot of resulting calibrated filter
-![Bode plot](figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_bode.png)
+<img src="figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_dist.png" width="512">
 
-![Filter taps](figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_imp.png)
+Bode plot
+
+<img src="./figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_bode.png" width="512">
+
+Impulse response 
+
+<img src="./figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_imp.png" width="512">
 
 #### Fixed Excess Loop Delay
 In the second case, the simulations are contained in [./excess_loop_delay_fixed.py](./excess_loop_delay_fixed.py) and are executed by typing
@@ -155,7 +161,7 @@ python excess_loop_delay_fixed.py process
 ```
 
 ##### Results
-The simulations generate a LaTex document [](./tex/excess_loop_delay_fixed/) which is the starting point for Fig. 12 in the [paper].
+The simulations generate LaTex documents, located in [./tex/excess_loop_delay_fixed/](./tex/excess_loop_delay_fixed/), which is the starting point for Fig. 12 in the [paper].
 
 Additionally, bode plots, state distribution, control signal distribution, PSD, filter impulse response, and time evolution of estimate are given in the [./figures/excess_loop_delay_fixed)](./figures/excess_loop_delay_fixed/) directory.
 
@@ -182,26 +188,26 @@ The simulations result in the csv files
 which contains the data used for plotting, using [pgfplots], in Fig. 15 and Fig. 16 respectively.
 In addition you find various related visualizations in the  folder.
 
-As previously mentioned, each parametrization results in a generated spice netlist which can be found in the [](./opamp/netlist/) folder.
+As previously mentioned, each parametrization results in a generated spice netlist which can be found in the [./opamp/netlist](./opamp/netlist/) folder.
 See for example this file [./opamp/netlist/rc_train_opamp_N_6_OSR=4_GBWP=2.4e+01_DC_gain=5.0e+02_fp_fs_0.31.cir](./opamp/netlist/rc_train_opamp_N_6_OSR=4_GBWP=2.4e+01_DC_gain=5.0e+02_fp_fs_0.31.cir).
 
 Finally, a number of helpful png files are generated in [./csv/opamp/](./figures/opamp/) folder. We show some highlights for GBWP=750, DC_gain=500 below:
 
 GBWP plot
 
-![GBWP](./figures/opamp/GBWP_SNR.png)
+<img src="./figures/opamp/GBWP_SNR.png" width="512">
 
 PSD
 
-![PSD](./figures/opamp/opamp_N_6_OSR=4_GBWP=7.5e+02_DC_gain=5.0e+02_fp_fs_0.31_psd.png)
+<img src="./figures/opamp/opamp_N_6_OSR=4_GBWP=7.5e+02_DC_gain=5.0e+02_fp_fs_0.31_psd.pn" width="512">
 
 Filter impulse response
 
-![Impulse response](./figures/opamp/opamp_N_6_OSR=4_GBWP=7.5e+02_DC_gain=5.0e+02_fp_fs_0.31_imp.png)
+<img src="./figures/opamp/opamp_N_6_OSR=4_GBWP=7.5e+02_DC_gain=5.0e+02_fp_fs_0.31_imp.png" width="512">
 
 Filter Bode plot
 
-![Bode plot](./figures/opamp/opamp_N_6_OSR=4_GBWP=7.5e+02_DC_gain=5.0e+02_fp_fs_0.31_bode.png)
+<img src="./figures/opamp/opamp_N_6_OSR=4_GBWP=7.5e+02_DC_gain=5.0e+02_fp_fs_0.31_bode.png" width="512">
 
 ## Simset
 [Simset][simset] is used as a convenience for orchestating the various parameter sweeps.
