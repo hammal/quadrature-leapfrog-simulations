@@ -222,13 +222,7 @@ def simulate_function(
             cbadc.digital_control.DigitalControl(
                 cbadc.analog_signal.Clock(1 / fs, tt=1e-14, td=0.0),
                 2 * N,
-                impulse_response=analog_frontend_bandpass.digital_control._impulse_response[
-                    0
-                ],
             ),
-            impulse_response=analog_frontend_bandpass.digital_control._impulse_response[
-                0
-            ],
         ),
     )
 
