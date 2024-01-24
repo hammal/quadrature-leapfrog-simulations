@@ -163,3 +163,5 @@ local
 parallel
 bash_scripts
 .data
+opamp/ngspice
+dither_sequence*.txt

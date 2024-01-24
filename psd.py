@@ -16,7 +16,7 @@ K_ref_half = 1 << 9
 
 simset.script_name = "psd.py"
 simset.concurrent_jobs = 48
-simset.python_interpreter = "python3"
+simset.python_interpreter = "python"
 
 
 figures_folder = "figures/psd"

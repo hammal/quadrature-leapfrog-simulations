@@ -2,6 +2,13 @@
 This repository contains the simulation code for the parper [A Control-Bounded Quadrature Leapfrog ADC][paper].
 
 ## Install
+To execute the code requires 
+- `python3.8` or newer, 
+- git, 
+- [ngspice] (alternatively [docker]) 
+- and optionally [GNU Parallel]
+
+to be installed on your machine.
 
 ### Virtual Python Enviroment
 To run the code it's reccomended to first create a fresh virutal python enviroment as
@@ -53,7 +60,7 @@ python psd.py process
 ```
 to execute the simulations.
 
-Alternatively, for parallel execution, execute
+Alternatively, for parallel execution, type
 ```zsh
 python psd.py simulate setup parallel
 ./bash_scripts/parallel_simulation.sh
@@ -84,9 +91,117 @@ The resulting figures can be found in [./figures/psd/](./figures/psd/) and conta
 
 ### Fig. 12: Excess Loop Delay
 
+There are two different excess loop delay simulations:
+1) where we assume to know the excess delay
+2) where the assumed excess delay is fixed
+   
+we proceed by describing these two scenarios sequentially.
+
+#### Known Excess Loop Delay
+In the first case, the simulations are contained in [./excess_loop_delay_variable.py](./excess_loop_delay_variable.py).
+As in the case of [the power spectral density simulations](#fig-11-power-spectral-densities), we use [simset] for the parameter sweeps and are therefore executed as
+```zsh
+python excess_loop_delay_variable.py simulate setup local
+./bash_scripts/local_simulation.sh
+python excess_loop_delay_variable.py process
+```
+to execute the simulations.
+
+Alternatively, for parallel execution, type
+```zsh
+python excess_loop_delay_variable.py simulate setup parallel
+./bash_scripts/parallel_simulation.sh
+python excess_loop_delay_variable.py process
+```
+
+##### Results
+The simulations generate two LaTex document 
+- [./tex/excess_loop_delay_variable/L2_and_L_infty_norm.tex](./tex/excess_loop_delay_variable/L2_and_L_infty_norm.tex) 
+- and [./tex/excess_loop_delay_variable/SNR.tex](./tex/excess_loop_delay_variable/SNR.tex)
+
+which is the starting point for Fig. 12 in the [paper].
+
+Additionally, bode plots, state distribution, control signal distribution, PSD, filter impulse response, and time evolution of estimate are given in the [./figures/excess_loop_delay_variable/)](./figures/excess_loop_delay_variable/) directory. Next follows a some highlights for excess loop delay = 0.08...
+
+PSD:
+
+![PSD](figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_psd.png))
+
+States time evolution:
+![States](figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06.png)
+
+States histogram
+![Histogram](figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_dist.png)
+
+Bode plot of resulting calibrated filter
+![Bode plot](figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_bode.png)
+
+![Filter taps](figures/excess_loop_delay_variable/t_DAC_6_OSR=4_delta_DC=0.08080808080808081_fp_fs_0.06_imp.png)
+
+#### Fixed Excess Loop Delay
+In the second case, the simulations are contained in [./excess_loop_delay_fixed.py](./excess_loop_delay_fixed.py) and are executed by typing
+```zsh
+python excess_loop_delay_fixed.py simulate setup local
+./bash_scripts/local_simulation.sh
+python excess_loop_delay_fixed.py process
+```
+to execute the simulations.
+
+Alternatively, for parallel execution, type
+```zsh
+python excess_loop_delay_fixed.py simulate setup parallel
+./bash_scripts/parallel_simulation.sh
+python excess_loop_delay_fixed.py process
+```
+
+##### Results
+The simulations generate a LaTex document [](./tex/excess_loop_delay_fixed/) which is the starting point for Fig. 12 in the [paper].
+
+Additionally, bode plots, state distribution, control signal distribution, PSD, filter impulse response, and time evolution of estimate are given in the [./figures/excess_loop_delay_fixed)](./figures/excess_loop_delay_fixed/) directory.
+
 ### Fig. 13: Component Variations
 
 ### Fig. 15 and Fig. 16: Opamp Implemenation
+The opamp implementation uses [ngspice] for circuit level simulations. In addition the [cbacd] toolbox is leveraged to generate spice netlist from the highlevel models as used in the prior simulations. To execute these simulation type
+```zsh
+python opamp.py simulate setup local
+./bash_scripts/local_simulation.sh
+python opamp.py process
+```
+
+Alternativly, in case you don't have ngspice installed on your machine you could use a docker image as
+```zsh
+sudo docker run -it --rm -v $(pwd):/home/jovyan ghcr.io/hammal/cbadc:develop ./docker_bash.sh
+```
+which will run [./docker_bash.sh](./docker_bash.sh) inside the image.
+
+#### Results
+The simulations result in the csv files 
+- [./csv/opamp/](./csv/opamp/)
+
+which contains the data used for plotting, using [pgfplots], in Fig. 15 and Fig. 16 respectively.
+In addition you find various related visualizations in the  folder.
+
+As previously mentioned, each parametrization results in a generated spice netlist which can be found in the [](./opamp/netlist/) folder.
+See for example this file [./opamp/netlist/rc_train_opamp_N_6_OSR=4_GBWP=2.4e+01_DC_gain=5.0e+02_fp_fs_0.31.cir](./opamp/netlist/rc_train_opamp_N_6_OSR=4_GBWP=2.4e+01_DC_gain=5.0e+02_fp_fs_0.31.cir).
+
+Finally, a number of helpful png files are generated in [./csv/opamp/](./figures/opamp/) folder. We show some highlights for GBWP=750, DC_gain=500 below:
+
+GBWP plot
+
+![GBWP](./figures/opamp/GBWP_SNR.png)
+
+PSD
+
+![PSD](./figures/opamp/opamp_N_6_OSR=4_GBWP=7.5e+02_DC_gain=5.0e+02_fp_fs_0.31_psd.png)
+
+Filter impulse response
+
+![Impulse response](./figures/opamp/opamp_N_6_OSR=4_GBWP=7.5e+02_DC_gain=5.0e+02_fp_fs_0.31_imp.png)
+
+Filter Bode plot
+
+![Bode plot](./figures/opamp/opamp_N_6_OSR=4_GBWP=7.5e+02_DC_gain=5.0e+02_fp_fs_0.31_bode.png)
 
 ## Simset
 [Simset][simset] is used as a convenience for orchestating the various parameter sweeps.
@@ -106,3 +221,5 @@ Note that [simset] will create utilitie files as part of its operations these fi
 [simset]: https://github.com/hammal/simset
 [GNU Parallel]: https://www.gnu.org/software/parallel/
 [pgfplots]: https://ctan.org/pkg/pgfplots
+[ngspice]: https://ngspice.sourceforge.io
+[docker]: https://www.docker.com
