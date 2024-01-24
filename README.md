@@ -13,7 +13,7 @@ to be installed on your machine.
 ### Virtual Python Environment
 To run the code, it's recommended to first create a fresh virtual python environment as
 ``` zsh
-python3 -m venv venv
+python -m venv venv
 ```
 to activate the environmental type
 ``` zsh
