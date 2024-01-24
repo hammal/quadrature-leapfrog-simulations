@@ -167,8 +167,18 @@ As this plot was generated with proprietary software, we are not able to share t
 
 ### Fig. 15 and Fig. 16: Opamp Implementation
 The opamp implementation uses ngspice for circuit-level simulations. In addition, the [cbacd] toolbox is leveraged to generate spice netlist from the high-level models as used in the prior simulations. To execute these simulation type
-
-Alternatively, in case you don't have ngspice installed on your machine, you could use a docker image as
+```zsh
+python opamp.py simulate setup local
+./bash_scripts/local_simulation.sh
+python opamp.py process
+```
+Alternatively, for parallel execution, type
+```zsh
+python opamp.py simulate setup parallel
+./bash_scripts/parallel_simulation.sh
+python opamp.py process
+```
+In case you don't have ngspice installed on your machine, you could use a docker image as
 ```zsh
 sudo docker run -it --rm -v $(pwd):/home/jovyan ghcr.io/hammal/cbadc:develop ./docker_bash.sh
 ```
@@ -190,7 +200,7 @@ GBWP plot
 
 PSD
 
-<img src="./figures/opamp/opamp_N_6_OSR=4_GBWP=7.5e+02_DC_gain=5.0e+02_fp_fs_0.31_psd.pn" width="512">
+<img src="./figures/opamp/opamp_N_6_OSR=4_GBWP=7.5e+02_DC_gain=5.0e+02_fp_fs_0.31_psd.png" width="512">
 
 Filter impulse response
 
