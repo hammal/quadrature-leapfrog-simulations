@@ -1,4 +1,4 @@
-cbadc==0.3.1
+cbadc==0.3.2
 simset @ git+https://github.com/hammal/simset.git@5781119d89cd8abc2f297a44faa317f5ab35afb2
 tikzplotlib==0.10.1
 matplotlib==3.5.1

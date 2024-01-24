@@ -290,11 +290,10 @@ def simulate_function(
             input_amplitude, frequency_baseband, phase=np.pi
         ),
     )
-    simulator = cbadc.simulator.get_simulator(
+    simulator = cbadc.simulator.FullSimulator(
         analog_frontend_bandpass.analog_system,
         analog_frontend_bandpass.digital_control,
         quadrature_input_signal_pair,
-        simulator_type=cbadc.simulator.SimulatorType.full_numerical,
     )
     ext_simulator = cbadc.simulator.extended_simulation_result(simulator)
 
@@ -334,11 +333,10 @@ def simulate_function(
         input_amplitude, frequency_baseband
     )
 
-    simulator_baseband = cbadc.simulator.get_simulator(
+    simulator_baseband = cbadc.simulator.FullSimulator(
         analog_frontend_baseband.analog_system,
         analog_frontend_baseband.digital_control,
         [input_signal_BB],
-        simulator_type=cbadc.simulator.SimulatorType.pre_computed_numerical,
     )
 
     digital_estimator_baseband(simulator_baseband)
