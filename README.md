@@ -171,7 +171,10 @@ Additionally, bode plots, state distribution, control signal distribution, PSD, 
 As this plot was generated with proprietary software, we cannot share the source code.
 
 ### Fig. 15 and Fig. 16: Opamp Implementation
-The opamp implementation uses ngspice for circuit-level simulations. In addition, the [cbadc] toolbox is leveraged to generate spice netlist from the high-level models as used in the prior simulations. To execute these simulation type
+The opamp simulations can be found in the python script [./opamp.py](./opamp.py).
+The script uses ngspice for circuit-level simulations. 
+In addition, the [cbadc] toolbox is leveraged to generate spice netlist from the high-level models as used in the prior simulations. 
+To execute type
 ```zsh
 python opamp.py simulate setup local
 ./bash_scripts/local_simulation.sh
