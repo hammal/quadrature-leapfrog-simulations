@@ -1,5 +1,5 @@
 # A Control-Bounded Quadrature Leapfrog ADC
-This repository contains the simulation code for the paper A Control-Bounded Quadrature Leapfrog ADC[paper].
+This repository contains the simulation code for the paper A Control-Bounded Quadrature Leapfrog ADC [paper].
 
 ## Install
 To execute the code requires 
@@ -44,7 +44,7 @@ To execute it, type
 ```zsh
 python transfer_function.py
 ```
-The script generates a CSV file [./csv[/tranfer_function/transfer_functions.csv](./csv/transfer_function/transfer_functions.csv), which was plotted using the [pgfplots] framework in the LaTex source file for the [paper]. In addition, the script generates the matplotlib plot [./figures/transfer_function/transfer_functions.png](./figures/transfer_function/transfer_function.png).
+The script generates a CSV file [./csv/tranfer_function/transfer_functions.csv](./csv/transfer_function/transfer_functions.csv), which was plotted using the [pgfplots] framework in the LaTex source file for the [paper]. In addition, the script generates the matplotlib plot [./figures/transfer_function/transfer_functions.png](./figures/transfer_function/transfer_function.png).
 
 <img src="./figures/transfer_function/transfer_function.png" width="512">
 
@@ -66,7 +66,7 @@ python psd.py simulate setup parallel
 ./bash_scripts/parallel_simulation.sh
 python psd.py process
 ```
-Note that this requires the [GNU parallel] to be installed; see [Optional install](#optional-optional-install) Section.](#optional-optional-install). Additionally, for parallel execution, take note of the 
+Note that this requires the [GNU parallel] to be installed; see [Optional install](#optional-optional-install) Section. Additionally, for parallel execution, take note of the 
 ```python
 simset.concurrent_jobs = 48
 ```
@@ -78,7 +78,12 @@ The script generates several CSV files and PNG figures. The CSV files contain th
 - [./csv/psd/psd_6_4](./csv/psd/psd_6_4.csv),
 - and [./csv/psd/psd_6_8](./csv/psd/psd_6_8.csv),
 
-contains the PSD data whereas [./csv/psd/snr_8_4.csv](./csv/psd/snr_8_4.csv), [./csv/psd/snr_6_4.csv](./csv/psd/snr_6_4.csv), and [./csv/psd/snr_6_8.csv](./csv/psd/snr_6_8.csv) correspond to the evaluated SNRs.
+contains the PSD data whereas 
+- [./csv/psd/snr_8_4.csv](./csv/psd/snr_8_4.csv),
+- [./csv/psd/snr_6_4.csv](./csv/psd/snr_6_4.csv),
+- and [./csv/psd/snr_6_8.csv](./csv/psd/snr_6_8.csv)
+
+correspond to the evaluated SNRs.
 
 The resulting figures can be found in [./figures/psd/](./figures/psd/) and contains PSD plots, SNR plots, state evolution plots, the final estimate in time-domain, and more. Some highlights follow below
 
@@ -119,7 +124,7 @@ The simulations generate two LaTex document
 
 which is the starting point for Fig. 12 in the [paper].
 
-Additionally, bode plots, state distribution, control signal distribution, PSD, filter impulse response, and time evolution of estimate are given in the [./figures/excess_loop_delay_variable/)](./figures/excess_loop_delay_variable/) directory. Next follows some highlights for excess loop delay = 0.08...
+Additionally, bode plots, state distribution, control signal distribution, PSD, filter impulse response, and time evolution of estimate are given in the [./figures/excess_loop_delay_variable/](./figures/excess_loop_delay_variable/) directory. Next follows some highlights for excess loop delay = 0.08...
 
 PSD:
 
@@ -163,10 +168,10 @@ The simulations generate LaTex documents, located in [./tex/excess_loop_delay_fi
 Additionally, bode plots, state distribution, control signal distribution, PSD, filter impulse response, and time evolution of estimate are given in the [./figures/excess_loop_delay_fixed)](./figures/excess_loop_delay_fixed/) directory.
 
 ### Fig. 13: Component Variations
-As this plot was generated with proprietary software, we are not able to share the full source code.
+As this plot was generated with proprietary software, we cannot share the source code.
 
 ### Fig. 15 and Fig. 16: Opamp Implementation
-The opamp implementation uses ngspice for circuit-level simulations. In addition, the [cbacd] toolbox is leveraged to generate spice netlist from the high-level models as used in the prior simulations. To execute these simulation type
+The opamp implementation uses ngspice for circuit-level simulations. In addition, the [cbadc] toolbox is leveraged to generate spice netlist from the high-level models as used in the prior simulations. To execute these simulation type
 ```zsh
 python opamp.py simulate setup local
 ./bash_scripts/local_simulation.sh
@@ -185,8 +190,7 @@ sudo docker run -it --rm -v $(pwd):/home/jovyan ghcr.io/hammal/cbadc:develop ./d
 which will run [./docker_bash.sh](./docker_bash.sh) inside the image.
 
 #### Results
-The simulations result in the CSV files 
-- [./csv/opamp/]Which contains the data used for plotting, using [pgfplots], in Fig. 15 and Fig. 16, respectively.
+The simulations result in the CSV files [./csv/opamp/](./csv/opamp/), which contains the data used for plotting, using [pgfplots], in Fig. 15 and Fig. 16, respectively.
 In addition, you find various related visualizations in the folder.
 
 As previously mentioned, each parametrization results in a generated spice netlist, which can be found in the [./opamp/netlist](./opamp/netlist/) folder.
@@ -212,7 +216,7 @@ Filter Bode plot
 
 ## Simset
 [Simset][simset] is used as a convenience for orchestrating the various parameter sweeps.
-Some useful commands when using [simset] are:
+Two useful commands when using [simset] are:
 
 #### Print status, i.e., the number of successful and unsuccessful simulations for a given file
 ```zsh
